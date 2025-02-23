@@ -1,0 +1,41 @@
+{% extends "frontend/base.html" %}
+{% block content %}
+<h2 class="mb-4">Trading Order Details - #{{ order.id }}</h2>
+<div class="p-4 border rounded bg-white shadow-sm mb-4">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><strong>Order Type:</strong> {{ order.order_type }}</li>
+    <li class="list-group-item"><strong>Product:</strong> {{ order.product.name }}</li>
+    <li class="list-group-item"><strong>Quantity:</strong> {{ order.quantity }}</li>
+    <li class="list-group-item"><strong>Price:</strong> {{ order.price }}</li>
+    <li class="list-group-item"><strong>Status:</strong> {{ order.status }}</li>
+    <li class="list-group-item"><strong>Created At:</strong> {{ order.created_at|date:"Y-m-d H:i" }}</li>
+  </ul>
+</div>
+
+<hr class="my-4">
+<h3 class="mb-3">Associated Transactions</h3>
+{% if order.transactions.all %}
+  <table class="table table-hover table-bordered">
+    <thead class="thead-light">
+      <tr>
+        <th>Transaction ID</th>
+        <th>Executed At</th>
+        <th>Executed Price</th>
+        <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tx in order.transactions.all %}
+      <tr>
+        <td>{{ tx.id }}</td>
+        <td>{{ tx.executed_at|date:"Y-m-d H:i" }}</td>
+        <td>{{ tx.executed_price }}</td>
+        <td>{{ tx.quantity }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="text-muted">No transactions have been recorded for this order yet.</p>
+{% endif %}
+{% endblock %}

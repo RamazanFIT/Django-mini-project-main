@@ -1,0 +1,7 @@
+Orders Report
+ID,User,Product,Type,Quantity,Price,Created At
+
+Sales Orders Report
+ID,Customer,Status,Created At,Total
+1,admin,Pending,23-02-2025 08:24,120000.00
+2,admin,Pending,23-02-2025 08:42,5.16

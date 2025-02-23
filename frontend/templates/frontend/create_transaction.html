@@ -1,0 +1,25 @@
+{% extends "frontend/base.html" %}
+{% block content %}
+<div class="card shadow-lg p-4 rounded-lg">
+  <h2 class="mb-4 font-weight-bold text-primary">💳 Create Transaction</h2>
+  <form method="POST" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="form-row">
+      {% for field in form %}
+        <div class="form-group col-md-6">
+          <label for="{{ field.id_for_label }}" class="font-weight-semibold">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+          {% if field.errors %}
+            <div class="invalid-feedback d-block">{{ field.errors|join:", " }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg mt-3">✅ Create Transaction</button>
+  </form>
+</div>
+{% endblock %}

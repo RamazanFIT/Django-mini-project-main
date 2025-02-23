@@ -1,0 +1,4 @@
+OrderID,User,Product,OrderType,Quantity,Price,CreatedAt
+
+SalesOrderID,Customer,Status,CreatedAt,Total
+1,admin,pending,2025-02-23 08:24:11,120000.00

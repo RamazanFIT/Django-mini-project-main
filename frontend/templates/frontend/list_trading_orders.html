@@ -1,0 +1,47 @@
+{% extends "frontend/base.html" %}
+{% block content %}
+<h2 class="mb-4">{% if user.role in "trader admin" %}Trading Orders Overview{% else %}Your Trading Orders{% endif %}</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <p class="text-muted">Browse through {% if user.role in "trader admin" %}all submitted{% else %}your recent{% endif %} trading orders and track their status.</p>
+  <a href="{% url 'frontend:create_trading_order' %}" class="btn btn-primary">New Trading Order</a>
+</div>
+
+<table class="table table-hover shadow-sm rounded">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Item</th>
+      <th scope="col">Order Type</th>
+      <th scope="col">Qty</th>
+      <th scope="col">Unit Price</th>
+      <th scope="col">Order Status</th>
+      <th scope="col">Date Created</th>
+      <th scope="col">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+    <tr>
+      <th scope="row">{{ order.id }}</th>
+      <td>{{ order.product.name }}</td>
+      <td>{{ order.order_type|title }}</td>
+      <td>{{ order.quantity }}</td>
+      <td>{{ order.price }}₸</td>
+      <td>
+        <span class="badge {% if order.status == 'Completed' %}badge-success{% elif order.status == 'Pending' %}badge-warning{% else %}badge-secondary{% endif %}">
+          {{ order.status }}
+        </span>
+      </td>
+      <td>{{ order.created_at|date:"d M Y, H:i" }}</td>
+      <td>
+        <a href="{% url 'frontend:trading_order_detail' order.id %}" class="btn btn-sm btn-outline-info">Details</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="8" class="text-center text-muted py-4">No orders have been placed yet. Click "New Trading Order" to get started.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

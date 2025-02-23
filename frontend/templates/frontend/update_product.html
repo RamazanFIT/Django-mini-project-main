@@ -1,0 +1,13 @@
+{% extends "frontend/base.html" %}
+{% block content %}
+<h2 class="mb-4">Update Product: {{ product.name }}</h2>
+<div class="p-4 border rounded bg-white shadow-sm">
+  <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.as_p }}
+    </div>
+    <button type="submit" class="btn btn-success">Save Changes</button>
+  </form>
+</div>
+{% endblock %}

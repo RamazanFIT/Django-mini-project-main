@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Sales Orders</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <style>
+    body { background-color: #f8f9fc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .navbar { box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); }
+    .navbar-brand { font-weight: 600; font-size: 1.5rem; }
+    .nav-link { font-size: 1rem; transition: color 0.2s ease; }
+    .nav-link:hover { color: #17a2b8; }
+    .container { padding-top: 2rem; }
+    h2 { font-weight: 700; font-size: 1.8rem; margin-bottom: 1.5rem; color: #343a40; }
+    .table-container { background-color: #fff; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); }
+    .table th { background-color: #343a40; color: #fff; font-weight: 600; }
+    .table td, .table th { vertical-align: middle; text-align: center; }
+    .btn-primary, .btn-success { border-radius: 8px; padding: 0.4rem 0.9rem; font-size: 0.9rem; }
+    .btn-success:hover { background-color: #218838; }
+    .actions a { margin: 0 0.2rem; }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="{% url 'adminpanel:index' %}">Admin Panel</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item"><a class="nav-link" href="{% url 'adminpanel:user_list' %}">Users</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'adminpanel:product_list' %}">Products</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'adminpanel:category_list' %}">Categories</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'adminpanel:salesorder_list' %}">Sales Orders</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <h2>Sales Orders</h2>
+  <div class="table-container">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Customer</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for order in orders %}
+        <tr>
+          <td>{{ order.id }}</td>
+          <td>{{ order.customer.username }}</td>
+          <td><span class="badge badge-info">{{ order.status }}</span></td>
+          <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
+          <td><strong>{{ order.total }}</strong></td>
+          <td class="actions">
+            <a class="btn btn-sm btn-success" href="{% url 'adminpanel:salesorder_update' order.id %}">Edit</a>
+            {% if order.get_absolute_url %}
+              <a class="btn btn-sm btn-primary" href="{{ order.get_absolute_url }}">View</a>
+            {% else %}
+              <a class="btn btn-sm btn-primary disabled" href="#" tabindex="-1" aria-disabled="true">View</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">No sales orders found.</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
